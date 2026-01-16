@@ -1,0 +1,71 @@
+defaults:
+  - _self_
+  - models/lgbm: age 
+
+# conf_path: conf/embeddings_validation_baselines_unsupervised.yaml
+target_name: age
+report_file_name: mts_${target_name}_embedding_validation.txt
+environment: 
+  work_dir: embeddings_validation_${target_name}.work
+target: 
+  file_name: ${hydra:runtime.cwd}/data/train_${target_name}.csv
+  cols_id: 
+    - user_id
+  cols_id_type: 
+    - int
+  col_target: ${target_name}
+split: 
+  fit_ids: true
+  train_id: 
+    file_name: ${hydra:runtime.cwd}/data/train_${target_name}.csv
+  test_id: 
+    file_name: ${hydra:runtime.cwd}/data/test_ids_file.csv
+  cv_split_count: 5
+  is_stratify: true
+  random_state: 42
+# models: 
+#   linear: 
+#     enabled: false
+#     model:
+#       _target_: sklearn.linear_model.LogisticRegression
+#     cpu_count: 1
+#     preprocessing: 
+#       - _target_: sklearn.preprocessing.MaxAbsScaler
+#   xgb: 
+#     enabled: false
+#     model:
+#       _target_: xgboost.XGBClassifier
+#       objective: multi:softprob
+#       num_class: 4
+#       n_jobs: 4
+#       seed: 42
+#       n_estimators: 300
+#     cpu_count: 4
+#     preprocessing: 
+#       - _target_: sklearn.preprocessing.MaxAbsScaler
+
+metrics: 
+  accuracy: 
+    enabled: true
+    score_func: sklearn.metrics.accuracy_score
+    scorer_params: 
+      needs_proba: false
+report_file: ${hydra:runtime.cwd}/results/${report_file_name}
+features:   
+<FILL_ME>
+
+
+external_scores: {}
+report: 
+  is_check_train: false
+  error_handling: fail
+  print_all_metrics: false
+  metrics: 
+    accuracy: 
+      float_format: "{:.3f}"
+      baseline_key: 
+        - lgbm
+        # - coles
+      split_columns: true
+# auto_features:
+#   - ${hydra:runtime.cwd}/data/mles_sup_embeddings_*.pickle

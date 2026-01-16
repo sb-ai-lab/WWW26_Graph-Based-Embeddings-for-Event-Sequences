@@ -1,0 +1,4 @@
+defaults:
+  - triplet_selector: bin_triplets_from_similarity_matrix_and_min_max
+
+_target_: ptls_extension_2024_research.losses.bpr.BPRLoss

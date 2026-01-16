@@ -1,0 +1,27 @@
+<module>               : Parsed args:
+  data_path      : /path/to/repo/Documents/my-coles-gnn-experimetns/scenario_gender/data
+  trx_file       : transactions.csv
+  orig_col_client_id: customer_id
+  col_item_id    : mcc_code
+  item_map_file_path: data/mcc_code_mapping.csv
+  client_map_file_path: data/client_id_map.parquet
+  cols_log_norm  : ['amount']
+  test_ids_path  : /path/to/repo/Documents/my-coles-gnn-experimetns/scenario_gender/data/test_ids.csv
+  output_graph_path: /path/to/repo/Documents/my-coles-gnn-experimetns/scenario_gender/data/graphs/weighted
+  output_full_graph_file: full_graph.bin
+  output_train_graph_file: train_graph.bin
+  output_client_id2full_graph_id_file: client_id2full_graph_id.pt
+  output_item_id2full_graph_id_file: item_id2full_graph_id.pt
+  output_client_id2train_graph_id_file: client_id2train_graph_id.pt
+  output_item_id2train_graph_id_file: item_id2train_graph_id.pt
+  log_file       : /path/to/repo/Documents/my-coles-gnn-experimetns/scenario_gender/results/weighted_graph_gender.txt
+  use_weights    : True
+preprocess_df          : df_data.head() after item_encoding: 
+  tr_datetime  tr_type    amount term_id  mcc_code  encoded_client_id
+0  0 10:23:26     1030  -2245.92     NaN         4               4711
+1  1 10:19:29     7010  56147.89     NaN         2               4711
+2  1 10:20:56     2330 -56147.89     NaN         6               4711
+3  1 10:39:54     1010  -1392.47     NaN         7               4711
+4  2 15:33:42     1010   -920.83     NaN         7               4711
+main_create_graph      : Saved full graph
+<module>               : Data collected in 11 sec (0:00:11.974579)

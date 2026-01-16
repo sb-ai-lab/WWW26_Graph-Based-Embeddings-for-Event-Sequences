@@ -1,0 +1,11 @@
+_target_: ptls.nn.AggFeatureSeqEncoder
+
+
+embeddings: ${trx_embedding_layers}
+numeric_values:
+  price: 
+    was_logified: true
+  request_cnt:
+    was_logified: false
+was_logified: false
+log_scale_factor: 1

@@ -1,0 +1,43 @@
+------------------------------------------------------------------------------------------------------------------------
+Vector testing report
+Params:
+
+Collected 20 files with 0 errors
+
+------------------------------------------------------------------------------------------------------------------------
+Metric: "auroc"
+                                                                                  scores_valid                                                                                                                                                                                             
+                                                                                          mean  t_pm t_int_l t_int_h   std                           values t_f_stat t_f_alpha t_t_stat t_t_alpha t_delta t_delta_pm t_delta_l t_delta_h t_delta_pp t_delta_pm_pp t_delta_l_pp t_delta_h_pp
+model_name feature_name                                                                                                                                                                                                                                                                    
+lgbm       coles_gnn_weighted__w_pred_bce__has_orig__alpha_0.5__gamma_0.5__freeze        0.857 0.012   0.845   0.869 0.010  [0.865 0.870 0.848 0.855 0.849]    1.081     0.470   -0.060     0.476  -0.000      0.010    -0.011     0.010     -0.035         1.194       -1.229        1.160
+           coles_gnn_weighted__w_pred_bce__no_orig__alpha_0.5__gamma_0.5__freeze         0.860 0.014   0.845   0.874 0.011  [0.869 0.875 0.848 0.855 0.852]    0.752     0.295    0.391     0.650   0.002      0.011    -0.009     0.013      0.234         1.236       -1.003        1.470
+           coles_gnn_weighted__w_pred_mse__has_orig__alpha_0.5__gamma_0.5__freeze        0.854 0.012   0.842   0.865 0.009  [0.859 0.868 0.850 0.847 0.846]    1.153     0.501   -0.804     0.215  -0.004      0.010    -0.014     0.006     -0.462         1.188       -1.650        0.726
+           coles_gnn_weighted__w_pred_mse__no_orig__alpha_0.5__gamma_0.5__freeze         0.860 0.014   0.846   0.874 0.011  [0.864 0.876 0.845 0.854 0.860]    0.761     0.301    0.441     0.668   0.002      0.011    -0.008     0.013      0.263         1.235       -0.972        1.498
+                                                                                  scores_test                                                                                                                                                                                             
+                                                                                         mean  t_pm t_int_l t_int_h   std                           values t_f_stat t_f_alpha t_t_stat t_t_alpha t_delta t_delta_pm t_delta_l t_delta_h t_delta_pp t_delta_pm_pp t_delta_l_pp t_delta_h_pp
+model_name feature_name                                                                                                                                                                                                                                                                   
+lgbm       coles_gnn_weighted__w_pred_bce__has_orig__alpha_0.5__gamma_0.5__freeze       0.870 0.004   0.866   0.875 0.004  [0.871 0.870 0.874 0.864 0.873]    2.064     0.747   -1.460     0.079  -0.004      0.005    -0.009     0.002     -0.414         0.587       -1.001        0.172
+           coles_gnn_weighted__w_pred_bce__no_orig__alpha_0.5__gamma_0.5__freeze        0.873 0.002   0.871   0.876 0.002  [0.871 0.874 0.871 0.875 0.875]    8.051     0.972   -0.289     0.388  -0.001      0.005    -0.006     0.004     -0.079         0.566       -0.645        0.487
+           coles_gnn_weighted__w_pred_mse__has_orig__alpha_0.5__gamma_0.5__freeze       0.871 0.004   0.867   0.876 0.003  [0.870 0.876 0.868 0.868 0.875]    2.262     0.777   -1.053     0.152  -0.003      0.005    -0.008     0.003     -0.297         0.584       -0.881        0.287
+           coles_gnn_weighted__w_pred_mse__no_orig__alpha_0.5__gamma_0.5__freeze        0.881 0.005   0.876   0.886 0.004  [0.878 0.882 0.882 0.876 0.886]    1.828     0.703    2.771     0.995   0.007      0.005     0.002     0.012      0.790         0.590        0.200        1.380
+
+------------------------------------------------------------------------------------------------------------------------
+Metric: "accuracy"
+                                                                                  scores_valid                                                                                                                                                                                             
+                                                                                          mean  t_pm t_int_l t_int_h   std                           values t_f_stat t_f_alpha t_t_stat t_t_alpha t_delta t_delta_pm t_delta_l t_delta_h t_delta_pp t_delta_pm_pp t_delta_l_pp t_delta_h_pp
+model_name feature_name                                                                                                                                                                                                                                                                    
+lgbm       coles_gnn_weighted__w_pred_bce__has_orig__alpha_0.5__gamma_0.5__freeze        0.775 0.024   0.751   0.799 0.019  [0.794 0.790 0.763 0.780 0.747]    0.441     0.100   -0.283     0.390  -0.002      0.015    -0.017     0.013     -0.260         1.901       -2.160        1.641
+           coles_gnn_weighted__w_pred_bce__no_orig__alpha_0.5__gamma_0.5__freeze         0.779 0.016   0.763   0.794 0.013  [0.790 0.792 0.763 0.778 0.770]    1.040     0.451    0.262     0.602   0.002      0.013    -0.012     0.015      0.217         1.715       -1.498        1.932
+           coles_gnn_weighted__w_pred_mse__has_orig__alpha_0.5__gamma_0.5__freeze        0.773 0.007   0.765   0.780 0.006  [0.777 0.778 0.772 0.774 0.763]    4.639     0.927   -0.666     0.256  -0.004      0.012    -0.016     0.008     -0.515         1.599       -2.114        1.084
+           coles_gnn_weighted__w_pred_mse__no_orig__alpha_0.5__gamma_0.5__freeze         0.781 0.016   0.765   0.797 0.013  [0.784 0.796 0.761 0.782 0.783]    1.006     0.435    0.671     0.745   0.004      0.013    -0.009     0.018      0.558         1.720       -1.162        2.277
+                                                                                  scores_test                                                                                                                                                                                             
+                                                                                         mean  t_pm t_int_l t_int_h   std                           values t_f_stat t_f_alpha t_t_stat t_t_alpha t_delta t_delta_pm t_delta_l t_delta_h t_delta_pp t_delta_pm_pp t_delta_l_pp t_delta_h_pp
+model_name feature_name                                                                                                                                                                                                                                                                   
+lgbm       coles_gnn_weighted__w_pred_bce__has_orig__alpha_0.5__gamma_0.5__freeze       0.782 0.007   0.774   0.789 0.006  [0.780 0.783 0.776 0.779 0.792]    2.705     0.827   -1.182     0.125  -0.006      0.010    -0.015     0.004     -0.703         1.230       -1.933        0.527
+           coles_gnn_weighted__w_pred_bce__no_orig__alpha_0.5__gamma_0.5__freeze        0.788 0.015   0.773   0.803 0.012  [0.783 0.782 0.788 0.808 0.779]    0.706     0.267    0.127     0.550   0.001      0.011    -0.010     0.011      0.083         1.350       -1.267        1.433
+           coles_gnn_weighted__w_pred_mse__has_orig__alpha_0.5__gamma_0.5__freeze       0.785 0.010   0.775   0.794 0.008  [0.788 0.787 0.780 0.774 0.794]    1.598     0.650   -0.608     0.275  -0.003      0.010    -0.013     0.007     -0.370         1.261       -1.631        0.890
+           coles_gnn_weighted__w_pred_mse__no_orig__alpha_0.5__gamma_0.5__freeze        0.795 0.013   0.783   0.808 0.010  [0.800 0.800 0.783 0.786 0.807]    0.940     0.401    1.562     0.934   0.008      0.010    -0.003     0.018      0.990         1.311       -0.321        2.301
+
+------------------------------------------------------------------------------------------------------------------------
+End of report.     Current time: 2024-08-11 14:49:01
+------------------------------------------------------------------------------------------------------------------------

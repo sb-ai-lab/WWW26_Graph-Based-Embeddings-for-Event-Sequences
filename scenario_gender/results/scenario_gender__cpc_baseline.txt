@@ -1,0 +1,31 @@
+------------------------------------------------------------------------------------------------------------------------
+Vector testing report
+Params:
+
+Collected 5 files with 0 errors
+
+------------------------------------------------------------------------------------------------------------------------
+Metric: "auroc"
+                        scores_valid                                                                                                                                                                                             
+                                mean  t_pm t_int_l t_int_h   std                           values t_f_stat t_f_alpha t_t_stat t_t_alpha t_delta t_delta_pm t_delta_l t_delta_h t_delta_pp t_delta_pm_pp t_delta_l_pp t_delta_h_pp
+model_name feature_name                                                                                                                                                                                                          
+lgbm       cpc                 0.850 0.012   0.838   0.862 0.010  [0.864 0.855 0.845 0.847 0.840]    1.000     0.500    0.000     0.500   0.000      0.014    -0.014     0.014      0.000         1.655       -1.655        1.655
+                        scores_test                                                                                                                                                                                             
+                               mean  t_pm t_int_l t_int_h   std                           values t_f_stat t_f_alpha t_t_stat t_t_alpha t_delta t_delta_pm t_delta_l t_delta_h t_delta_pp t_delta_pm_pp t_delta_l_pp t_delta_h_pp
+model_name feature_name                                                                                                                                                                                                         
+lgbm       cpc                0.856 0.004   0.853   0.860 0.003  [0.854 0.856 0.855 0.855 0.861]    1.000     0.500    0.000     0.500   0.000      0.004    -0.004     0.004      0.000         0.488       -0.488        0.488
+
+------------------------------------------------------------------------------------------------------------------------
+Metric: "accuracy"
+                        scores_valid                                                                                                                                                                                             
+                                mean  t_pm t_int_l t_int_h   std                           values t_f_stat t_f_alpha t_t_stat t_t_alpha t_delta t_delta_pm t_delta_l t_delta_h t_delta_pp t_delta_pm_pp t_delta_l_pp t_delta_h_pp
+model_name feature_name                                                                                                                                                                                                          
+lgbm       cpc                 0.768 0.019   0.749   0.787 0.015  [0.793 0.772 0.759 0.763 0.755]    1.000     0.500    0.000     0.500   0.000      0.022    -0.022     0.022      0.000         2.876       -2.876        2.876
+                        scores_test                                                                                                                                                                                             
+                               mean  t_pm t_int_l t_int_h   std                           values t_f_stat t_f_alpha t_t_stat t_t_alpha t_delta t_delta_pm t_delta_l t_delta_h t_delta_pp t_delta_pm_pp t_delta_l_pp t_delta_h_pp
+model_name feature_name                                                                                                                                                                                                         
+lgbm       cpc                0.779 0.009   0.771   0.788 0.007  [0.770 0.786 0.774 0.785 0.782]    1.000     0.500    0.000     0.500   0.000      0.010    -0.010     0.010      0.000         1.286       -1.286        1.286
+
+------------------------------------------------------------------------------------------------------------------------
+End of report.     Current time: 2025-02-06 18:42:36
+------------------------------------------------------------------------------------------------------------------------

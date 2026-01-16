@@ -1,0 +1,8 @@
+defaults:
+  - similarity_matrix_slice_getter: from_before_dot_prod_feats
+  - user_id_converter: dict
+  
+_target_: ptls_extension_2024_research.sampling_strategies.bin_triplets_ctors.create_bin_triplets__from_similarity_matrix
+min_elements_in_bin: 5
+num_triplets_per_anchor_user: 3
+n_bins: 10

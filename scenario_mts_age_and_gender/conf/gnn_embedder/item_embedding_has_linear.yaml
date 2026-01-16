@@ -1,0 +1,10 @@
+defaults:
+  - client_embeddings: default
+  - item_embeddings: with_linear
+
+_target_: ptls_extension_2024_research.frames.gnn.gnn_module_v2.GnnEmbedder
+output_size: ${gnn_output_embedding_size}
+gnn_name: GraphSAGE
+use_edge_weights: True
+gnn_kwargs_dict:
+  num_layers: 1

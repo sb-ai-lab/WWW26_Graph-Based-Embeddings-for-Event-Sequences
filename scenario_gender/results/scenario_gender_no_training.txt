@@ -1,0 +1,31 @@
+------------------------------------------------------------------------------------------------------------------------
+Vector testing report
+Params:
+
+Collected 5 files with 0 errors
+
+------------------------------------------------------------------------------------------------------------------------
+Metric: "auroc"
+                              scores_valid                                                                                                                                                                                             
+                                      mean  t_pm t_int_l t_int_h   std                           values t_f_stat t_f_alpha t_t_stat t_t_alpha t_delta t_delta_pm t_delta_l t_delta_h t_delta_pp t_delta_pm_pp t_delta_l_pp t_delta_h_pp
+model_name feature_name                                                                                                                                                                                                                
+lgbm       coles__no_training        0.610 0.022   0.587   0.632 0.018  [0.602 0.600 0.641 0.597 0.609]    1.000     0.500    0.000     0.500   0.000      0.026    -0.026     0.026      0.000         4.331       -4.331        4.331
+                              scores_test                                                                                                                                                                                             
+                                     mean  t_pm t_int_l t_int_h   std                           values t_f_stat t_f_alpha t_t_stat t_t_alpha t_delta t_delta_pm t_delta_l t_delta_h t_delta_pp t_delta_pm_pp t_delta_l_pp t_delta_h_pp
+model_name feature_name                                                                                                                                                                                                               
+lgbm       coles__no_training       0.590 0.015   0.575   0.605 0.012  [0.593 0.574 0.582 0.598 0.604]    1.000     0.500    0.000     0.500   0.000      0.018    -0.018     0.018      0.000         2.981       -2.981        2.981
+
+------------------------------------------------------------------------------------------------------------------------
+Metric: "accuracy"
+                              scores_valid                                                                                                                                                                                             
+                                      mean  t_pm t_int_l t_int_h   std                           values t_f_stat t_f_alpha t_t_stat t_t_alpha t_delta t_delta_pm t_delta_l t_delta_h t_delta_pp t_delta_pm_pp t_delta_l_pp t_delta_h_pp
+model_name feature_name                                                                                                                                                                                                                
+lgbm       coles__no_training        0.597 0.022   0.575   0.619 0.018  [0.585 0.586 0.627 0.587 0.599]    1.000     0.500    0.000     0.500   0.000      0.026    -0.026     0.026      0.000         4.353       -4.353        4.353
+                              scores_test                                                                                                                                                                                             
+                                     mean  t_pm t_int_l t_int_h   std                           values t_f_stat t_f_alpha t_t_stat t_t_alpha t_delta t_delta_pm t_delta_l t_delta_h t_delta_pp t_delta_pm_pp t_delta_l_pp t_delta_h_pp
+model_name feature_name                                                                                                                                                                                                               
+lgbm       coles__no_training       0.571 0.006   0.565   0.578 0.005  [0.577 0.573 0.564 0.569 0.574]    1.000     0.500    0.000     0.500   0.000      0.007    -0.007     0.007      0.000         1.271       -1.271        1.271
+
+------------------------------------------------------------------------------------------------------------------------
+End of report.     Current time: 2024-09-09 02:24:53
+------------------------------------------------------------------------------------------------------------------------

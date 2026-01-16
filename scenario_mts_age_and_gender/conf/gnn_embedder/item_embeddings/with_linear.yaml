@@ -1,0 +1,9 @@
+_target_: ptls_extension_2024_research.frames.gnn.embedding_with_linear.EmbeddingWithLinear
+embedding_layer:
+  _target_: torch.nn.Embedding.from_pretrained
+  embeddings: 
+    _target_: torch.load
+    f: data/url_host_embeddings_graph_ids__train_graph_with_added_items_ids__has_offset.pt
+    map_location: ${device}
+  freeze: false
+out_features: ${gnn_input_embedding_size}

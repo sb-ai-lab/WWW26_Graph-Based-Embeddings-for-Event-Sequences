@@ -1,0 +1,13 @@
+load_source_data       : Loaded 322899435 rows from "/path/to/repo/Documents/my-coles-gnn-experimetns/scenario_mts_age_and_gender/data/original_data/competition_data_final.parquet"
+load_source_data       : Loaded 322899435 rows in total
+_td_mts                : MTS time transformation
+trx_to_features        : Feature collection in progress ...
+trx_to_features        : Prepared features for 415317 clients
+load_source_data       : Loaded 270000 rows from "/path/to/repo/Documents/my-coles-gnn-experimetns/scenario_mts_age_and_gender/data/original_data/public_train.parquet"
+load_source_data       : Loaded 270000 rows in total
+update_with_target     : Target updated for 415317 clients
+split_dataset          : Train size: 388317 clients
+split_dataset          : Test size: 27000 clients
+save_features          : Saved to: "/path/to/repo/Documents/my-coles-gnn-experimetns/scenario_mts_age_and_gender/data/with_url/train_trx_file.parquet"
+save_features          : Saved to: "/path/to/repo/Documents/my-coles-gnn-experimetns/scenario_mts_age_and_gender/data/with_url/test_trx_file.parquet"
+run                    : Data collected in 2933 sec (0:48:53.751440)

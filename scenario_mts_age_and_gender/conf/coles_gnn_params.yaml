@@ -1,0 +1,97 @@
+defaults:
+  - _self_
+  - dataset_unsupervised: parquet
+  - inference: with_client_id_iterable
+  - inference/seq_encoder/pretrained
+  - gnn_embedder: default
+  - trx_embedding_layers: all_except_item_id
+  - data_module: ptls_coles_memory
+  - trx_custom_embeddings: ptls_id_to_gnn_embedding
+
+graph_path: data/graphs/weighted_train_graph_has_test_items
+
+device: cuda
+
+num_users: 388317
+gnn_output_embedding_size: 256
+gnn_input_embedding_size: 256
+llm_embedding_size: 256
+
+seed_everything: 42
+logger_name: coles_gnn_model
+model_path: models/coles_gnn_model.p
+embed_file_name: coles_gnn_embeddings
+
+trainer: 
+  accelerator: ${device}
+  max_epochs: 150
+  enable_checkpointing: false
+  deterministic: true
+
+pl_module:
+  _target_: ptls_extension_2024_research.frames.coles_gnn.coles_gnn_module_v2.ColesGnnModuleFullGraph
+  seq_encoder:
+    _target_: ptls.nn.RnnSeqEncoder
+    trx_encoder: 
+      _target_: ptls_extension_2024_research.TrxEncoder_WithCIEmbeddings
+      norm_embeddings: false
+      embeddings_noise: 0.003
+      embeddings: ${trx_embedding_layers}
+      numeric_values: 
+        price: identity
+        request_cnt: identity
+      col_item_ids: url_host_preprocesed
+      custom_embeddings: ${trx_custom_embeddings}
+    type: gru
+    hidden_size: 1024
+    bidir: false
+    trainable_starter: static
+  
+  gnn_embedder: ${gnn_embedder}
+  id_converter: 
+    _target_: ptls_extension_2024_research.frames.coles_gnn.coles_gnn_module_v2.IdConverter
+    item_id2graph_id: 
+      _target_: torch.load
+      f: ${graph_path}/item_id2train_graph_id.pt
+    client_id2graph_id: 
+      _target_: torch.load
+      f: ${graph_path}/client_id2train_graph_id.pt
+    device_name: ${device}
+  client_item_g:
+    _target_: ptls_extension_2024_research.graphs.graph.ClientItemGraphFull.from_graph_file
+    graph_file_path: ${graph_path}/train_graph.bin
+    device_name: ${device}
+  include_gnn_users_in_contrastive_loss: false
+  use_gnn_loss: true
+  loss_gamma: 0.5
+  gnn_loss_alpha: 0.5
+  coles_head:
+    _target_: ptls.nn.Head
+    use_norm_encoder: true
+    input_size: ${pl_module.seq_encoder.hidden_size}
+  coles_loss:
+    _target_: ptls.frames.coles.losses.ContrastiveLoss
+    margin: 0.5
+    sampling_strategy:
+      _target_: ptls.frames.coles.sampling_strategies.HardNegativePairSelector
+      neg_count: 5
+  coles_validation_metric:
+    _target_: ptls.frames.coles.metric.BatchRecallTopK
+    K: 4
+    metric: cosine
+  rand_edge_sampler_seed: 42
+  neg_items_per_pos: 1
+  lp_criterion_name: BCELoss
+  link_predictor_add_sigmoid: false
+  link_predictor_name: one_layer
+  optimizer_partial:
+    _partial_: true
+    _target_: torch.optim.Adam
+    lr: 0.002
+    weight_decay: 0.0
+  lr_scheduler_partial:
+    _partial_: true
+    _target_: torch.optim.lr_scheduler.StepLR
+    step_size: 10
+    gamma: 0.9025
+  

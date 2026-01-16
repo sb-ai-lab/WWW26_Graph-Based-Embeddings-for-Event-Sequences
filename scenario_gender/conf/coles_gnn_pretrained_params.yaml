@@ -1,0 +1,85 @@
+device: cuda
+
+defaults:
+  - _self_
+  - dataset_unsupervised/parquet
+  - inference/default
+  - inference/seq_encoder/pretrained
+  - trx_simple_embedding_layers/all_except_item_id
+  - data_module: ptls_coles_memory
+
+
+ckpt_callback:
+  _target_: pytorch_lightning.callbacks.ModelCheckpoint
+  dirpath: checkpoints
+  filename: '{epoch}'
+  every_n_epochs: 10
+  save_top_k: -1
+
+
+seed_everything: 42
+logger_name: mles_model_with_pretrained_gnn
+model_path: models/mles_model_with_pretrained_gnn_model.p
+embed_file_name: mles_model_with_pretrained_gnn_embeddings
+
+
+trainer: 
+  accelerator: ${device}
+  max_epochs: 150
+  enable_checkpointing: false
+  deterministic: true
+
+pl_module:
+  _target_: ptls.frames.coles.CoLESModule
+  validation_metric:
+    _target_: ptls.frames.coles.metric.BatchRecallTopK
+    K: 4
+    metric: cosine
+  seq_encoder:
+    _target_: ptls.nn.RnnSeqEncoder
+    trx_encoder: 
+      _target_: ptls.nn.TrxEncoder
+      norm_embeddings: false
+      embeddings_noise: 0.003
+      embeddings: ${trx_simple_embedding_layers}
+      numeric_values: 
+        amount: identity
+      custom_embeddings:
+        mcc_code:
+          _target_: ptls_extension_2024_research.nn.trx_encoder.encoders.PretrainedGraphItemEmbedder
+          embeddings:
+            _target_: torch.load
+            f: models/pretrained_gnn_models/wl-0.5_gnn-GraphSAGE_res-True_wd-0.01/200.pt
+            # map_location: ${device}
+          item_id2graph_id: 
+            _target_: torch.load
+            f: data/graphs/weighted/item_id2train_graph_id.pt
+            # map_location: ${device}
+          device: 
+            _target_: torch.device
+            device: ${device} 
+          freeze: false
+    type: gru
+    hidden_size: 1024
+    bidir: false
+    trainable_starter: static
+  head:
+    _target_: ptls.nn.Head
+    use_norm_encoder: true
+    input_size: ${pl_module.seq_encoder.hidden_size}
+  loss:
+    _target_: ptls.frames.coles.losses.ContrastiveLoss
+    margin: 0.5
+    sampling_strategy:
+      _target_: ptls.frames.coles.sampling_strategies.HardNegativePairSelector
+      neg_count: 5
+  optimizer_partial:
+    _partial_: true
+    _target_: torch.optim.Adam
+    lr: 0.002
+    weight_decay: 0.0
+  lr_scheduler_partial:
+    _partial_: true
+    _target_: torch.optim.lr_scheduler.StepLR
+    step_size: 10
+    gamma: 0.9025

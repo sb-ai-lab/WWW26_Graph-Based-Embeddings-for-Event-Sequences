@@ -1,0 +1,26 @@
+num_workers: 4
+batch_size: 1000
+
+dataset:
+  _target_: ptls_extension_2024_research.frames.inference_module_client_id_aware.dataset_with_id.DatasetWithClientId
+  data: 
+    _target_: ptls.data_load.datasets.MemoryMapDataset
+    data:
+      _target_: ptls.data_load.datasets.ParquetDataset
+      data_files:
+        _target_: ptls.data_load.datasets.ParquetFiles
+        file_path:
+          - data/train_trx_file.parquet
+          - data/test_trx_file.parquet
+      i_filters:
+        - _target_: ptls.data_load.iterable_processing.FeatureFilter
+          keep_feature_names: 
+            - user_id
+            - encoded_client_id
+        - _target_: ptls.data_load.iterable_processing.ISeqLenLimit
+          max_seq_len: 1600
+  col_client_id: encoded_client_id
+
+output:
+  path: data/${embed_file_name}
+  format: pickle

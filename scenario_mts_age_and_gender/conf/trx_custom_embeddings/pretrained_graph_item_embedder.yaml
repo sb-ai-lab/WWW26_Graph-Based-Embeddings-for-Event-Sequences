@@ -1,0 +1,14 @@
+url_host_preprocesed:
+  _target_: ptls_extension_2024_research.nn.trx_encoder.encoders.PretrainedEmbeddings
+  embeddings:
+    _target_: torch.load
+    f: models/pretrained_gnn_models/wl-0.5_gnn-GraphSAGE_res-True_wd-0.01/200.pt
+    # map_location: ${device}
+  ptls_item_id_to_pretrained_embedding_id: 
+    _target_: torch.load
+    f: ${graph_path}/item_id2train_graph_id.pt
+    # map_location: ${device}
+  device: 
+    _target_: torch.device
+    device: ${device} 
+  freeze: false

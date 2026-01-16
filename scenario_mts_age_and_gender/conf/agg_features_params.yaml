@@ -1,0 +1,8 @@
+defaults:
+  - _self_
+  - trx_embedding_layers: all_except_item_id
+  - inference: default
+  - inference.seq_encoder: agg_feature
+
+seed_everything: 42
+embed_file_name: agg_feat_embed

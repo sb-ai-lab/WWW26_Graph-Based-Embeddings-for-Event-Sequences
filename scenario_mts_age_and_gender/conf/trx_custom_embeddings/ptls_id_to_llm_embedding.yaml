@@ -1,0 +1,14 @@
+url_host_preprocesed:
+  _target_: ptls_extension_2024_research.nn.trx_encoder.encoders.PretrainedEmbeddings
+  embeddings:
+    _target_: torch.load
+    f: data/url_host_embeddings_ptls_ids.pt
+    # map_location: ${device}
+  ptls_item_id_to_pretrained_embedding_id: 
+    _target_: torch.arange
+    end: 199685  # >= num_preproc_urls + 2
+    # map_location: ${device}
+  device: 
+    _target_: torch.device
+    device: ${device} 
+  freeze: false

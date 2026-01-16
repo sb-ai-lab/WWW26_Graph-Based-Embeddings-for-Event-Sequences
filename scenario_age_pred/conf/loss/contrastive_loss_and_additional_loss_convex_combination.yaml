@@ -1,0 +1,6 @@
+defaults:
+  - loss1: contrastive
+  - loss2: bpr
+
+_target_: ptls_extension_2024_research.losses.convex_combination_loss.ConvexCombinationLoss
+alpha: 0.5

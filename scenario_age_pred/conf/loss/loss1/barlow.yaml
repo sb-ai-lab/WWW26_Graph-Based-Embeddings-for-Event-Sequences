@@ -1,0 +1,2 @@
+_target_: ptls.frames.coles.losses.BarlowTwinsLoss
+lambd: 0.04

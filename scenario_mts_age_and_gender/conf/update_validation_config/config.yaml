@@ -1,0 +1,9 @@
+
+defaults:
+  - _self_
+  - filter: identity
+
+experiment_files_path: './data'
+template_path: './embeddings_validation_template.yaml'
+output_config_path: './conf/embeddings_validation/embeddings_validation.yaml'
+fill_me_token: '<FILL_ME>'

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+N_TRIPLETS_PER_ANCHOR_USER_OPTIONS=(32 128)
+MIN_ELEMENTS_IN_BIN_WHEN_ONE_BIN_ONLY_OPTIONS=(5)
+LOSS_ALPHA_OPTIONS=(0 0.5 0.85 0.15 0.01)
+
+
+for MIN_ELEMENTS_IN_BIN_WHEN_ONE_BIN_ONLY in "${MIN_ELEMENTS_IN_BIN_WHEN_ONE_BIN_ONLY_OPTIONS[@]}"; do
+    for N_TRIPLETS_PER_ANCHOR_USER in "${N_TRIPLETS_PER_ANCHOR_USER_OPTIONS[@]}"; do
+        for LOSS_ALPHA in "${LOSS_ALPHA_OPTIONS[@]}"; do
+            ./run_single.sh \
+                "${LOSS_ALPHA}" \
+                "${N_TRIPLETS_PER_ANCHOR_USER}" \
+                "${MIN_ELEMENTS_IN_BIN_WHEN_ONE_BIN_ONLY}"
+        done
+    done
+done

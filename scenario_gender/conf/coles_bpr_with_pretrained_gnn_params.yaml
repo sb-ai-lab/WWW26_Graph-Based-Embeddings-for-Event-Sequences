@@ -1,0 +1,146 @@
+device: cuda
+
+defaults:
+  - _self_
+  - dataset_unsupervised/parquet
+  - inference/with_client_id
+  - inference/seq_encoder/pretrained
+  - trx_simple_embedding_layers/all_except_item_id
+
+
+
+ckpt_callback:
+  _target_: pytorch_lightning.callbacks.ModelCheckpoint
+  dirpath: checkpoints
+  filename: '{epoch}'
+  every_n_epochs: 10
+  save_top_k: -1
+
+
+seed_everything: 42
+logger_name: coles_bpr_with_pretrained_gnn
+model_path: models/coles_bpr_with_pretrained_gnn_model.p
+embed_file_name: coles_bpr_with_pretrained_gnn_embeddings
+
+data_module:
+  _target_: ptls.frames.PtlsDataModule
+  train_data:
+    _target_: ptls_extension_2024_research.ColesDataset
+    splitter:
+      _target_: ptls.frames.coles.split_strategy.SampleSlices
+      split_count: 5
+      cnt_min: 15
+      cnt_max: 75
+    data: ${dataset_unsupervised.train}
+    col_client_id: 'encoded_client_id'
+  valid_data:
+    _target_: ptls_extension_2024_research.ColesDataset
+    splitter:
+      _target_: ptls.frames.coles.split_strategy.SampleSlices
+      split_count: 5
+      cnt_min: 25
+      cnt_max: 100
+    data: ${dataset_unsupervised.valid}
+    col_client_id: 'encoded_client_id'
+  train_batch_size: 128
+  train_num_workers: 8
+  valid_batch_size: 1024
+  valid_num_workers: 16
+
+trainer: 
+  accelerator: ${device}
+  max_epochs: 150
+  # enable_checkpointing: false
+  deterministic: true
+
+pl_module:
+  _target_: ptls_extension_2024_research.frames.coles_client_id_aware.coles_module__trx_with_ci_embs.CoLESModule_CITrx
+  validation_metric:
+    _target_: ptls.frames.coles.metric.BatchRecallTopK
+    K: 4
+    metric: cosine
+  seq_encoder:
+    _target_: ptls.nn.RnnSeqEncoder
+
+
+    trx_encoder: 
+      _target_: ptls_extension_2024_research.TrxEncoder_WithCIEmbeddings
+      norm_embeddings: false
+      embeddings_noise: 0.003
+      embeddings: ${trx_simple_embedding_layers}
+      numeric_values: 
+        amount: identity
+      col_item_ids: mcc_code
+    
+      custom_embeddings:
+        mcc_code:
+          _target_: ptls_extension_2024_research.nn.trx_encoder.encoders.PretrainedGraphItemEmbedder
+          embeddings:
+            _target_: torch.load
+            f: models/pretrained_gnn_models/wl-0.5_gnn-GraphSAGE_res-True_wd-0.01/200.pt
+            # map_location: ${device}
+          item_id2graph_id: 
+            _target_: torch.load
+            f: data/graphs/weighted/item_id2train_graph_id.pt
+            # map_location: ${device}
+          device: 
+            _target_: torch.device
+            device: ${device} 
+          freeze: false
+     
+    type: gru
+    hidden_size: 1024
+    bidir: false
+    trainable_starter: static
+
+
+  head:
+    _target_: ptls.nn.Head
+    use_norm_encoder: true
+    input_size: ${pl_module.seq_encoder.hidden_size}
+  loss:
+    _target_: ptls_extension_2024_research.losses.convex_combination_loss.ConvexCombinationLoss
+    loss1:
+      _target_: ptls.frames.coles.losses.ContrastiveLoss
+      margin: 0.5
+      sampling_strategy:
+        _target_: ptls.frames.coles.sampling_strategies.HardNegativePairSelector
+        neg_count: 5
+    loss2: 
+      _target_: ptls_extension_2024_research.losses.bpr.BPRLoss
+      triplet_selector: 
+        _target_: ptls_extension_2024_research.sampling_strategies.bin_triplets.BinTriplets
+        user_bins_container: 
+          _target_: ptls_extension_2024_research.sampling_strategies.bin_triplets_utils.user_bins_getters.UserBinsContainer_Precalculated_IterableIterableSet
+          bins_dict:
+            _target_: ptls_extension_2024_research.hydra_utils.load_pickle
+            f_path: ./data/graphs/weighted/bins__adj_embs-tuple_tuple_tuple-cosine_similarity-no_postprocessing.pickle
+          user_id_converter:
+            _target_:  ptls_extension_2024_research.sampling_strategies.bin_triplets_utils.id_converter.IdConverter_Dict
+            internal_id_to_external_id: 
+              _target_: torch.load
+              f: ./data/graphs/weighted/train_graph_id2client_id__dict.pt
+          raise_on_bin_is_not_a_set: false
+        bin_separation_strategy: 
+          _target_: ptls_extension_2024_research.sampling_strategies.bin_triplets_utils.bin_separation_strategies.MaxDistanceBinSeparationStrategy
+          similarity_matrix_slice_getter:
+            _target_: ptls_extension_2024_research.hydra_utils.load_pickle
+            f_path: ./data/graphs/weighted/adj_feats__cosine__similarities.pickle
+          user_id_converter:
+            _target_:  ptls_extension_2024_research.sampling_strategies.bin_triplets_utils.id_converter.IdConverter_Dict
+            internal_id_to_external_id: 
+              _target_: torch.load
+              f: ./data/graphs/weighted/train_graph_id2client_id__dict.pt
+          min_elements_in_bin: 5
+        num_triplets_per_anchor_user: 3
+    alpha: 0.5
+  optimizer_partial:
+    _partial_: true
+    _target_: torch.optim.Adam
+    lr: 0.002
+    weight_decay: 0.0
+  lr_scheduler_partial:
+    _partial_: true
+    _target_: torch.optim.lr_scheduler.StepLR
+    step_size: 10
+    gamma: 0.9025

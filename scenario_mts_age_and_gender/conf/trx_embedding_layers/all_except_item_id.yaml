@@ -1,0 +1,21 @@
+region_name:
+  in: 81
+  out: 16
+city_name:
+  in: 985
+  out: 16
+cpe_model_name:
+  in: 599
+  out: 16
+cpe_manufacturer_name:
+  in: 37
+  out: 8
+part_of_day:
+  in: 4
+  out: 4
+cpe_type_cd:
+  in: 4
+  out: 4
+cpe_model_os_type:
+  in: 3
+  out: 3

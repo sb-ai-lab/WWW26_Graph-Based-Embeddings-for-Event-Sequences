@@ -1,0 +1,14 @@
+<module>               : Parsed args:
+  trx_file       : transactions.csv
+  use_weights    : False
+  data_path      : /path/to/repo/Documents/my-coles-gnn-experimetns/scenario_gender/data
+  col_client_id  : customer_id
+  col_item_id    : mcc_code
+  cols_log_norm  : ['amount']
+  test_ids_path  : /path/to/repo/Documents/my-coles-gnn-experimetns/scenario_gender/data/test_ids.csv
+  output_train_graph_path: /path/to/repo/Documents/my-coles-gnn-experimetns/scenario_gender/data/graphs/unweighted/train_graph.bin
+  output_full_graph_path: /path/to/repo/Documents/my-coles-gnn-experimetns/scenario_gender/data/graphs/unweighted/full_graph.bin
+  output_client_id2graph_id_path: /path/to/repo/Documents/my-coles-gnn-experimetns/scenario_gender/data/graphs/unweighted/client_id2graph_id.pt
+  output_item_id2graph_id_path: /path/to/repo/Documents/my-coles-gnn-experimetns/scenario_gender/data/graphs/unweighted/item_id2graph_id.pt
+  log_file       : /path/to/repo/Documents/my-coles-gnn-experimetns/scenario_gender/results/unweighted_graph_gender.txt
+<module>               : Data collected in 8 sec (0:00:08.279078)

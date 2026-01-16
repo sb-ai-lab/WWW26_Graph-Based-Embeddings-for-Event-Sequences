@@ -1,0 +1,79 @@
+defaults:
+  - _self_
+  - dataset_unsupervised/parquet
+  - inference/default
+  - inference/seq_encoder/pretrained
+  - trx_embedding_layers: all_features
+
+seed_everything: 42
+logger_name: barlow_twins_model
+model_path: models/barlow_twins_model.p
+embed_file_name: barlow_twins_embeddings
+
+data_module:
+  _target_: ptls.frames.PtlsDataModule
+  train_data:
+    _target_: ptls.frames.coles.ColesDataset
+    splitter:
+      _target_: ptls.frames.coles.split_strategy.SampleSlices
+      split_count: 2
+      cnt_min: 15
+      cnt_max: 75
+    data: ${dataset_unsupervised.train}
+  valid_data:
+    _target_: ptls.frames.coles.ColesDataset
+    splitter:
+      _target_: ptls.frames.coles.split_strategy.SampleSlices
+      split_count: 2
+      cnt_min: 25
+      cnt_max: 100
+    data: ${dataset_unsupervised.valid}
+  train_batch_size: 128
+  train_num_workers: 8
+  valid_batch_size: 1024
+  valid_num_workers: 16
+
+device: cuda
+
+trainer: 
+  accelerator: ${device}
+  max_epochs: 150
+  enable_checkpointing: false
+  deterministic: true
+
+pl_module:
+  _target_: ptls.frames.coles.CoLESModule
+  validation_metric:
+    _target_: ptls.frames.coles.metric.BatchRecallTopK
+    K: 1
+    metric: cosine
+  seq_encoder:
+    _target_: ptls.nn.RnnSeqEncoder
+    trx_encoder: 
+      _target_: ptls.nn.TrxEncoder
+      norm_embeddings: false
+      embeddings_noise: 0.003
+      embeddings: ${trx_embedding_layers}
+      numeric_values: 
+        amount: identity
+    type: gru
+    hidden_size: 1024
+    bidir: false
+    trainable_starter: static
+  head:
+    _target_: ptls.nn.Head
+    input_size: ${pl_module.seq_encoder.hidden_size}
+    use_batch_norm: true
+  loss:
+    _target_: ptls.frames.coles.losses.BarlowTwinsLoss
+    lambd: 0.04
+  optimizer_partial:
+    _partial_: true
+    _target_: torch.optim.Adam
+    lr: 0.002
+    weight_decay: 0.0
+  lr_scheduler_partial:
+    _partial_: true
+    _target_: torch.optim.lr_scheduler.StepLR
+    step_size: 10
+    gamma: 0.9025

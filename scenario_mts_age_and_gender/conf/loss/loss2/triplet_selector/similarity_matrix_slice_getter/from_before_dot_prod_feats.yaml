@@ -1,0 +1,4 @@
+_target_: ptls_extension_2024_research.sampling_strategies.bin_triplets_utils.similarity_matrix_slice_getter.SimilarityMatrixSliceGetter__FromFeatsBeforeDotProduct
+feats:
+  _target_: scipy.sparse.load_npz
+  file: ${graph_path}/graph_adj_embs_normalized.npz

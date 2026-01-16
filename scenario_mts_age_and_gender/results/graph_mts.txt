@@ -1,0 +1,24 @@
+<module>               : Parsed args:
+  data_path      : /path/to/repo/my-coles-gnn-experimetns/scenario_mts_age_and_gender/data
+  trx_file       : competition_data_edges.parquet
+  orig_col_client_id: user_id
+  col_item_id    : url_host_preprocesed
+  item_map_file_path: data/url_host_preprocesed_mapping.csv
+  client_map_file_path: data/client_id_map.parquet
+  test_ids_path  : /path/to/repo/my-coles-gnn-experimetns/scenario_mts_age_and_gender/data/test_ids_file.csv
+  output_graph_path: /path/to/repo/my-coles-gnn-experimetns/scenario_mts_age_and_gender/data/graphs/weighted
+  output_full_graph_file: full_graph.bin
+  output_train_graph_file: train_graph.bin
+  output_client_id2full_graph_id_file: client_id2full_graph_id.pt
+  output_item_id2full_graph_id_file: item_id2full_graph_id.pt
+  output_client_id2train_graph_id_file: client_id2train_graph_id.pt
+  output_item_id2train_graph_id_file: item_id2train_graph_id.pt
+  log_file       : /path/to/repo/my-coles-gnn-experimetns/scenario_mts_age_and_gender/results/graph_mts.txt
+  use_weights    : True
+preprocess_df          : df_data.head() after item_encoding: 
+   request_cnt  url_host_preprocesed  encoded_client_id
+0            4                  82.0             359133
+1            1                  53.0              95893
+2            5                 110.0             193478
+3            9                  57.0             348061
+4           10                  22.0             316468

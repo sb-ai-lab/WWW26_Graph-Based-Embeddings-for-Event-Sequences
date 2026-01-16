@@ -1,0 +1,4 @@
+_target_:  ptls_extension_2024_research.sampling_strategies.bin_triplets_utils.id_converter.IdConverter_Dict.from_external_id_to_internal_id
+external_id_to_internal_id: 
+  _target_: torch.load
+  f: ${graph_path}/client_id2train_graph_id__dict.pt

@@ -1,0 +1,31 @@
+------------------------------------------------------------------------------------------------------------------------
+Vector testing report
+Params:
+
+Collected 5 files with 0 errors
+
+------------------------------------------------------------------------------------------------------------------------
+Metric: "auroc"
+                                       scores_valid                                                                                                                                                                                             
+                                               mean  t_pm t_int_l t_int_h   std                           values t_f_stat t_f_alpha t_t_stat t_t_alpha t_delta t_delta_pm t_delta_l t_delta_h t_delta_pp t_delta_pm_pp t_delta_l_pp t_delta_h_pp
+model_name feature_name                                                                                                                                                                                                                         
+lgbm       coles_gnn_alpha-025-no-orig        0.858 0.012   0.846   0.871 0.010  [0.866 0.870 0.845 0.859 0.852]    1.000     0.500    0.000     0.500   0.000      0.014    -0.014     0.014      0.000         1.668       -1.668        1.668
+                                       scores_test                                                                                                                                                                                             
+                                              mean  t_pm t_int_l t_int_h   std                           values t_f_stat t_f_alpha t_t_stat t_t_alpha t_delta t_delta_pm t_delta_l t_delta_h t_delta_pp t_delta_pm_pp t_delta_l_pp t_delta_h_pp
+model_name feature_name                                                                                                                                                                                                                        
+lgbm       coles_gnn_alpha-025-no-orig       0.868 0.005   0.863   0.873 0.004  [0.864 0.870 0.867 0.865 0.874]    1.000     0.500    0.000     0.500   0.000      0.006    -0.006     0.006      0.000         0.661       -0.661        0.661
+
+------------------------------------------------------------------------------------------------------------------------
+Metric: "accuracy"
+                                       scores_valid                                                                                                                                                                                             
+                                               mean  t_pm t_int_l t_int_h   std                           values t_f_stat t_f_alpha t_t_stat t_t_alpha t_delta t_delta_pm t_delta_l t_delta_h t_delta_pp t_delta_pm_pp t_delta_l_pp t_delta_h_pp
+model_name feature_name                                                                                                                                                                                                                         
+lgbm       coles_gnn_alpha-025-no-orig        0.777 0.019   0.758   0.796 0.015  [0.793 0.782 0.754 0.784 0.769]    1.000     0.500    0.000     0.500   0.000      0.022    -0.022     0.022      0.000         2.864       -2.864        2.864
+                                       scores_test                                                                                                                                                                                             
+                                              mean  t_pm t_int_l t_int_h   std                           values t_f_stat t_f_alpha t_t_stat t_t_alpha t_delta t_delta_pm t_delta_l t_delta_h t_delta_pp t_delta_pm_pp t_delta_l_pp t_delta_h_pp
+model_name feature_name                                                                                                                                                                                                                        
+lgbm       coles_gnn_alpha-025-no-orig       0.774 0.009   0.765   0.784 0.008  [0.769 0.780 0.767 0.771 0.785]    1.000     0.500    0.000     0.500   0.000      0.011    -0.011     0.011      0.000         1.424       -1.424        1.424
+
+------------------------------------------------------------------------------------------------------------------------
+End of report.     Current time: 2024-08-04 22:38:48
+------------------------------------------------------------------------------------------------------------------------

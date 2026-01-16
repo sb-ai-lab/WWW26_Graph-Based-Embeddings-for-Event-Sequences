@@ -1,0 +1,2 @@
+_target_: numpy.load
+file: ${graph_path}/similarity_matrix.npy

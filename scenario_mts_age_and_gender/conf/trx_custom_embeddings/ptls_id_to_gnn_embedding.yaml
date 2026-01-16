@@ -1,0 +1,7 @@
+url_host_preprocesed:
+  _target_: ptls_extension_2024_research.nn.trx_encoder.encoders.EmbeddingEncoder
+  num_embeddings: 196695  # num_embeddings = n_items + 2 = max_id_in_url_map + 1
+  embedding_dim: ${gnn_output_embedding_size}
+  device: 
+    _target_: torch.device
+    device: ${device}

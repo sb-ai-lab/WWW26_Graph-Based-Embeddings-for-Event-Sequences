@@ -1,0 +1,219 @@
+conf_path: conf/scenario_gender_bpr.yaml
+environment: 
+  work_dir: embeddings_validation.work
+target: 
+  file_name: ${hydra:runtime.cwd}/data/gender_train.csv
+  cols_id: 
+    - customer_id
+  cols_id_type: 
+    - int
+  col_target: gender
+split: 
+  fit_ids: true
+  train_id: 
+    file_name: ${hydra:runtime.cwd}/data/gender_train.csv
+  test_id: 
+    file_name: ${hydra:runtime.cwd}/data/test_ids.csv
+  cv_split_count: 5
+  is_stratify: true
+  random_state: 42
+models: 
+  linear: 
+    enabled: false
+    model:
+      _target_: sklearn.linear_model.LogisticRegression
+    cpu_count: 1
+    preprocessing: 
+      - _target_: sklearn.preprocessing.MaxAbsScaler
+
+  lgbm: 
+    enabled: true
+    model:
+      _target_: lightgbm.LGBMClassifier
+      n_estimators: 500
+      boosting_type: gbdt
+      objective: binary
+      metric: auc
+      subsample: 0.5
+      subsample_freq: 1
+      learning_rate: 0.02
+      feature_fraction: 0.75
+      max_depth: 6
+      lambda_l1: 1
+      lambda_l2: 1
+      min_data_in_leaf: 50
+      random_state: 42
+      n_jobs: 8
+      reg_alpha: null
+      reg_lambda: null
+      colsample_bytree: null
+      min_child_samples: null
+    cpu_count: 4
+    preprocessing: 
+      - _target_: sklearn.preprocessing.MaxAbsScaler
+
+  xgb: 
+    enabled: false
+    model:
+      _target_: xgboost.XGBClassifier
+      n_jobs: 4
+      seed: 42
+      n_estimators: 300
+    cpu_count: 4
+    preprocessing: 
+      - _target_: sklearn.preprocessing.MaxAbsScaler
+
+metrics: 
+  auroc: 
+    enabled: true
+    score_func: sklearn.metrics.roc_auc_score
+    scorer_params: 
+      needs_proba: true
+  accuracy: 
+    enabled: true
+    score_func: sklearn.metrics.accuracy_score
+    scorer_params: 
+      needs_proba: false
+report_file: ${hydra:runtime.cwd}/results/scenario_gender_bpr_with_pretrained_gnn.txt
+features: 
+  check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GAT_res-True_wd-0__pretrain_epoches_75__loss_alpha_0.5__triplets_per_user_128__bin_separation_margin_5__40__epoches__try_1:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GAT_res-True_wd-0__pretrain_epoches_75__loss_alpha_0.5__triplets_per_user_128__bin_separation_margin_5__40__epoches__try_1_embeddings.pickle
+    target_options: {}
+
+  check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GAT_res-True_wd-0__pretrain_epoches_75__loss_alpha_0.85__triplets_per_user_128__bin_separation_margin_5__40__epoches__try_1:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GAT_res-True_wd-0__pretrain_epoches_75__loss_alpha_0.85__triplets_per_user_128__bin_separation_margin_5__40__epoches__try_1_embeddings.pickle
+    target_options: {}
+
+  check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GAT_res-True_wd-0__pretrain_epoches_75__loss_alpha_0.15__triplets_per_user_128__bin_separation_margin_5__40__epoches__try_1:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GAT_res-True_wd-0__pretrain_epoches_75__loss_alpha_0.15__triplets_per_user_128__bin_separation_margin_5__40__epoches__try_1_embeddings.pickle
+    target_options: {}
+
+  check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GAT_res-True_wd-0__pretrain_epoches_75__loss_alpha_0.5__triplets_per_user_32__bin_separation_margin_5__40__epoches__try_1:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GAT_res-True_wd-0__pretrain_epoches_75__loss_alpha_0.5__triplets_per_user_32__bin_separation_margin_5__40__epoches__try_1_embeddings.pickle
+    target_options: {}
+
+  check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GAT_res-True_wd-0__pretrain_epoches_75__loss_alpha_0.85__triplets_per_user_32__bin_separation_margin_5__40__epoches__try_1:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GAT_res-True_wd-0__pretrain_epoches_75__loss_alpha_0.85__triplets_per_user_32__bin_separation_margin_5__40__epoches__try_1_embeddings.pickle
+    target_options: {}
+
+  check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GAT_res-True_wd-0__pretrain_epoches_75__loss_alpha_0.15__triplets_per_user_32__bin_separation_margin_5__40__epoches__try_1:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GAT_res-True_wd-0__pretrain_epoches_75__loss_alpha_0.15__triplets_per_user_32__bin_separation_margin_5__40__epoches__try_1_embeddings.pickle
+    target_options: {}
+
+  check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GAT_res-True_wd-0__pretrain_epoches_75__loss_alpha_0.5__triplets_per_user_8__bin_separation_margin_5__40__epoches__try_1:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GAT_res-True_wd-0__pretrain_epoches_75__loss_alpha_0.5__triplets_per_user_8__bin_separation_margin_5__40__epoches__try_1_embeddings.pickle
+    target_options: {}
+
+  check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GAT_res-True_wd-0__pretrain_epoches_75__loss_alpha_0.85__triplets_per_user_8__bin_separation_margin_5__40__epoches__try_1:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GAT_res-True_wd-0__pretrain_epoches_75__loss_alpha_0.85__triplets_per_user_8__bin_separation_margin_5__40__epoches__try_1_embeddings.pickle
+    target_options: {}
+
+  check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GAT_res-True_wd-0__pretrain_epoches_75__loss_alpha_0.15__triplets_per_user_8__bin_separation_margin_5__40__epoches__try_1:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GAT_res-True_wd-0__pretrain_epoches_75__loss_alpha_0.15__triplets_per_user_8__bin_separation_margin_5__40__epoches__try_1_embeddings.pickle
+    target_options: {}
+
+  check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GAT_res-True_wd-0__pretrain_epoches_75__loss_alpha_0.5__triplets_per_user_1__bin_separation_margin_5__40__epoches__try_1:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GAT_res-True_wd-0__pretrain_epoches_75__loss_alpha_0.5__triplets_per_user_1__bin_separation_margin_5__40__epoches__try_1_embeddings.pickle
+    target_options: {}
+
+  check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GAT_res-True_wd-0__pretrain_epoches_75__loss_alpha_0.85__triplets_per_user_1__bin_separation_margin_5__40__epoches__try_1:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GAT_res-True_wd-0__pretrain_epoches_75__loss_alpha_0.85__triplets_per_user_1__bin_separation_margin_5__40__epoches__try_1_embeddings.pickle
+    target_options: {}
+
+  check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GAT_res-True_wd-0__pretrain_epoches_75__loss_alpha_0.15__triplets_per_user_1__bin_separation_margin_5__40__epoches__try_1:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GAT_res-True_wd-0__pretrain_epoches_75__loss_alpha_0.15__triplets_per_user_1__bin_separation_margin_5__40__epoches__try_1_embeddings.pickle
+    target_options: {}
+
+  check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__loss_alpha_0.5__triplets_per_user_128__bin_separation_margin_5__40__epoches__try_1:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__loss_alpha_0.5__triplets_per_user_128__bin_separation_margin_5__40__epoches__try_1_embeddings.pickle
+    target_options: {}
+
+  check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__loss_alpha_0.85__triplets_per_user_128__bin_separation_margin_5__40__epoches__try_1:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__loss_alpha_0.85__triplets_per_user_128__bin_separation_margin_5__40__epoches__try_1_embeddings.pickle
+    target_options: {}
+
+  check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__loss_alpha_0.15__triplets_per_user_128__bin_separation_margin_5__40__epoches__try_1:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__loss_alpha_0.15__triplets_per_user_128__bin_separation_margin_5__40__epoches__try_1_embeddings.pickle
+    target_options: {}
+
+  check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__loss_alpha_0.5__triplets_per_user_32__bin_separation_margin_5__40__epoches__try_1:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__loss_alpha_0.5__triplets_per_user_32__bin_separation_margin_5__40__epoches__try_1_embeddings.pickle
+    target_options: {}
+
+  check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__loss_alpha_0.85__triplets_per_user_32__bin_separation_margin_5__40__epoches__try_1:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__loss_alpha_0.85__triplets_per_user_32__bin_separation_margin_5__40__epoches__try_1_embeddings.pickle
+    target_options: {}
+
+  check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__loss_alpha_0.15__triplets_per_user_32__bin_separation_margin_5__40__epoches__try_1:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__loss_alpha_0.15__triplets_per_user_32__bin_separation_margin_5__40__epoches__try_1_embeddings.pickle
+    target_options: {}
+
+  check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__loss_alpha_0.5__triplets_per_user_8__bin_separation_margin_5__40__epoches__try_1:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__loss_alpha_0.5__triplets_per_user_8__bin_separation_margin_5__40__epoches__try_1_embeddings.pickle
+    target_options: {}
+
+  check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__loss_alpha_0.85__triplets_per_user_8__bin_separation_margin_5__40__epoches__try_1:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/check__coles_bpr_with_pretrained_gnn__GNN_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__loss_alpha_0.85__triplets_per_user_8__bin_separation_margin_5__40__epoches__try_1_embeddings.pickle
+    target_options: {}
+
+
+
+
+external_scores: {}
+report: 
+  is_check_train: false
+  error_handling: fail
+  print_all_metrics: false
+  metrics: 
+    auroc: 
+      float_format: "{:.3f}"
+      baseline_key: 
+        - lgbm
+        # - coles
+      split_columns: true
+    accuracy: 
+      float_format: "{:.3f}"
+      baseline_key: 
+        - lgbm
+        # - coles
+      split_columns: true

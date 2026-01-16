@@ -1,0 +1,5 @@
+_target_: ptls_extension_2024_research.additional_callbacks.additional_callbacks.ModelCheckpoint
+dirpath: checkpoints
+filename: {epoch}
+every_n_epochs: 10
+save_top_k: -1

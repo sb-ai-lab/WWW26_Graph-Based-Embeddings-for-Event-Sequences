@@ -1,0 +1,6 @@
+_target_: torch.nn.Embedding.from_pretrained
+embeddings: 
+  _target_: torch.load
+  f: data/url_host_embeddings_graph_ids__train_graph_with_added_items_ids__has_offset.pt
+  map_location: ${device}
+freeze: false

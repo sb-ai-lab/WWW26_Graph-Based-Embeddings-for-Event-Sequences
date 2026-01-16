@@ -1,0 +1,725 @@
+conf_path: conf/embeddings_validation_baselines_unsupervised.yaml
+environment: 
+  work_dir: embeddings_validation.work
+target: 
+  file_name: ${hydra:runtime.cwd}/data/gender_train.csv
+  cols_id: 
+    - customer_id
+  cols_id_type: 
+    - int
+  col_target: gender
+split: 
+  fit_ids: true
+  train_id: 
+    file_name: ${hydra:runtime.cwd}/data/gender_train.csv
+  test_id: 
+    file_name: ${hydra:runtime.cwd}/data/test_ids.csv
+  cv_split_count: 5
+  is_stratify: true
+  random_state: 42
+models: 
+  linear: 
+    enabled: false
+    model:
+      _target_: sklearn.linear_model.LogisticRegression
+    cpu_count: 1
+    preprocessing: 
+      - _target_: sklearn.preprocessing.MaxAbsScaler
+
+  lgbm: 
+    enabled: true
+    model:
+      _target_: lightgbm.LGBMClassifier
+      n_estimators: 500
+      boosting_type: gbdt
+      objective: binary
+      metric: auc
+      subsample: 0.5
+      subsample_freq: 1
+      learning_rate: 0.02
+      feature_fraction: 0.75
+      max_depth: 6
+      lambda_l1: 1
+      lambda_l2: 1
+      min_data_in_leaf: 50
+      random_state: 42
+      n_jobs: 8
+      reg_alpha: null
+      reg_lambda: null
+      colsample_bytree: null
+      min_child_samples: null
+    cpu_count: 4
+    preprocessing: 
+      - _target_: sklearn.preprocessing.MaxAbsScaler
+
+  xgb: 
+    enabled: false
+    model:
+      _target_: xgboost.XGBClassifier
+      n_jobs: 4
+      seed: 42
+      n_estimators: 300
+    cpu_count: 4
+    preprocessing: 
+      - _target_: sklearn.preprocessing.MaxAbsScaler
+
+metrics: 
+  auroc: 
+    enabled: true
+    score_func: sklearn.metrics.roc_auc_score
+    scorer_params: 
+      needs_proba: true
+  accuracy: 
+    enabled: true
+    score_func: sklearn.metrics.accuracy_score
+    scorer_params: 
+      needs_proba: false
+report_file: ${hydra:runtime.cwd}/results/scenario_gender_2024_research__pretrained_gnn.txt
+features: 
+  coles_gnn__pretrained_wl-0.5_gnn-GAT_res-True_wd-0__pretrain_epoches_15__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GAT_res-True_wd-0__pretrain_epoches_15__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GAT_res-True_wd-0__pretrain_epoches_50__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GAT_res-True_wd-0__pretrain_epoches_50__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GAT_res-True_wd-0__pretrain_epoches_100__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GAT_res-True_wd-0__pretrain_epoches_100__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GAT_res-True_wd-0__pretrain_epoches_150__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GAT_res-True_wd-0__pretrain_epoches_150__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GAT_res-True_wd-0__pretrain_epoches_200__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GAT_res-True_wd-0__pretrain_epoches_200__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GAT_res-True_wd-0.1__pretrain_epoches_25__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GAT_res-True_wd-0.1__pretrain_epoches_25__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GAT_res-True_wd-0.1__pretrain_epoches_50__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GAT_res-True_wd-0.1__pretrain_epoches_50__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GAT_res-True_wd-0.1__pretrain_epoches_75__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GAT_res-True_wd-0.1__pretrain_epoches_75__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GAT_res-True_wd-0.1__pretrain_epoches_100__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GAT_res-True_wd-0.1__pretrain_epoches_100__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GAT_res-True_wd-0.1__pretrain_epoches_150__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GAT_res-True_wd-0.1__pretrain_epoches_150__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GAT_res-True_wd-0.1__pretrain_epoches_200__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GAT_res-True_wd-0.1__pretrain_epoches_200__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GAT_res-True_wd-0.01__pretrain_epoches_25__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GAT_res-True_wd-0.01__pretrain_epoches_25__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GAT_res-True_wd-0.01__pretrain_epoches_50__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GAT_res-True_wd-0.01__pretrain_epoches_50__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GAT_res-True_wd-0.01__pretrain_epoches_100__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GAT_res-True_wd-0.01__pretrain_epoches_100__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GAT_res-True_wd-0.01__pretrain_epoches_150__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GAT_res-True_wd-0.01__pretrain_epoches_150__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GAT_res-True_wd-0.01__pretrain_epoches_200__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GAT_res-True_wd-0.01__pretrain_epoches_200__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-False_wd-0__pretrain_epoches_50__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-False_wd-0__pretrain_epoches_50__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-False_wd-0__pretrain_epoches_75__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-False_wd-0__pretrain_epoches_75__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-False_wd-0__pretrain_epoches_100__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-False_wd-0__pretrain_epoches_100__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-False_wd-0__pretrain_epoches_150__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-False_wd-0__pretrain_epoches_150__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-False_wd-0__pretrain_epoches_200__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-False_wd-0__pretrain_epoches_200__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_75__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_75__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_150__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_150__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_200__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_200__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0.1__pretrain_epoches_50__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0.1__pretrain_epoches_50__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0.1__pretrain_epoches_75__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0.1__pretrain_epoches_75__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0.1__pretrain_epoches_100__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0.1__pretrain_epoches_100__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0.1__pretrain_epoches_150__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0.1__pretrain_epoches_150__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0.1__pretrain_epoches_200__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0.1__pretrain_epoches_200__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0.01__pretrain_epoches_25__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0.01__pretrain_epoches_25__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0.01__pretrain_epoches_50__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0.01__pretrain_epoches_50__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0.01__pretrain_epoches_75__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0.01__pretrain_epoches_75__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0.01__pretrain_epoches_100__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0.01__pretrain_epoches_100__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0.01__pretrain_epoches_150__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0.01__pretrain_epoches_150__epoches_40_embeddings.pickle
+    target_options: {}
+
+  # coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0.01__pretrain_epoches_200__epoches_40:
+  #   enabled: true
+  #   read_params: 
+  #     file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0.01__pretrain_epoches_200__epoches_40_embeddings.pickle
+  #   target_options: {}
+
+  coles_gnn__pretrained_frozen__wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_frozen__wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_frozen__wl-0.5_gnn-GAT_res-True_wd-0.01__pretrain_epoches_100__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_frozen__wl-0.5_gnn-GAT_res-True_wd-0.01__pretrain_epoches_100__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_frozen__wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_75__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_frozen__wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_75__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_frozen__wl-0.5_gnn-GAT_res-True_wd-0.01__pretrain_epoches_25__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_frozen__wl-0.5_gnn-GAT_res-True_wd-0.01__pretrain_epoches_25__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_frozen__wl-0.5_gnn-GAT_res-True_wd-0__pretrain_epoches_15__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_frozen__wl-0.5_gnn-GAT_res-True_wd-0__pretrain_epoches_15__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_frozen__wl-0.5_gnn-GAT_res-True_wd-0.01__pretrain_epoches_50__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_frozen__wl-0.5_gnn-GAT_res-True_wd-0.01__pretrain_epoches_50__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_frozen__wl-0.5_gnn-GAT_res-True_wd-0.01__pretrain_epoches_200__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_frozen__wl-0.5_gnn-GAT_res-True_wd-0.01__pretrain_epoches_200__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_frozen__wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_150__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_frozen__wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_150__epoches_40_embeddings.pickle
+    target_options: {}
+
+
+
+
+
+
+
+
+  coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-False_wd-0__pretrain_epoches_50__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-False_wd-0__pretrain_epoches_50__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-False_wd-0__pretrain_epoches_75__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-False_wd-0__pretrain_epoches_75__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-False_wd-0__pretrain_epoches_100__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-False_wd-0__pretrain_epoches_100__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-False_wd-0__pretrain_epoches_150__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-False_wd-0__pretrain_epoches_150__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-False_wd-0__pretrain_epoches_200__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-False_wd-0__pretrain_epoches_200__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_75__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_75__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_150__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_150__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_200__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_200__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.1__pretrain_epoches_50__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.1__pretrain_epoches_50__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.1__pretrain_epoches_75__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.1__pretrain_epoches_75__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.1__pretrain_epoches_100__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.1__pretrain_epoches_100__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.1__pretrain_epoches_150__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.1__pretrain_epoches_150__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.1__pretrain_epoches_200__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.1__pretrain_epoches_200__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.01__pretrain_epoches_25__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.01__pretrain_epoches_25__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.01__pretrain_epoches_50__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.01__pretrain_epoches_50__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.01__pretrain_epoches_75__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.01__pretrain_epoches_75__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.01__pretrain_epoches_100__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.01__pretrain_epoches_100__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.01__pretrain_epoches_150__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.01__pretrain_epoches_150__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.01__pretrain_epoches_200__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_20_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.01__pretrain_epoches_200__epoches_40_embeddings.pickle
+    target_options: {}
+
+
+
+
+
+
+  coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-False_wd-0__pretrain_epoches_50__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-False_wd-0__pretrain_epoches_50__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-False_wd-0__pretrain_epoches_75__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-False_wd-0__pretrain_epoches_75__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-False_wd-0__pretrain_epoches_100__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-False_wd-0__pretrain_epoches_100__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-False_wd-0__pretrain_epoches_150__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-False_wd-0__pretrain_epoches_150__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-False_wd-0__pretrain_epoches_200__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-False_wd-0__pretrain_epoches_200__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_75__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_75__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_150__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_150__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_200__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_200__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.1__pretrain_epoches_50__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.1__pretrain_epoches_50__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.1__pretrain_epoches_75__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.1__pretrain_epoches_75__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.1__pretrain_epoches_100__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.1__pretrain_epoches_100__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.1__pretrain_epoches_150__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.1__pretrain_epoches_150__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.1__pretrain_epoches_200__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.1__pretrain_epoches_200__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.01__pretrain_epoches_25__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.01__pretrain_epoches_25__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.01__pretrain_epoches_50__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.01__pretrain_epoches_50__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.01__pretrain_epoches_75__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.01__pretrain_epoches_75__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.01__pretrain_epoches_100__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.01__pretrain_epoches_100__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.01__pretrain_epoches_150__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.01__pretrain_epoches_150__epoches_40_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.01__pretrain_epoches_200__epoches_40:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_unfreeze_after_10_epoches__wl-0.5_gnn-GraphSAGE_res-True_wd-0.01__pretrain_epoches_200__epoches_40_embeddings.pickle
+    target_options: {}
+
+
+
+
+
+
+
+
+
+
+
+  coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_150__ckpt_epoch_9:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_150__ckpt_epoch_9_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_150__ckpt_epoch_19:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_150__ckpt_epoch_19_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_150__ckpt_epoch_29:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_150__ckpt_epoch_29_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_150__ckpt_epoch_39:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_150__ckpt_epoch_39_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_150__ckpt_epoch_49:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_150__ckpt_epoch_49_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_150__ckpt_epoch_59:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_150__ckpt_epoch_59_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_150__ckpt_epoch_69:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_150__ckpt_epoch_69_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_150__ckpt_epoch_79:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_150__ckpt_epoch_79_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_150__ckpt_epoch_89:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_150__ckpt_epoch_89_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_150__ckpt_epoch_99:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_150__ckpt_epoch_99_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_150__ckpt_epoch_109:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_150__ckpt_epoch_109_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_150__ckpt_epoch_119:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_150__ckpt_epoch_119_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_150__ckpt_epoch_129:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_150__ckpt_epoch_129_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_150__ckpt_epoch_139:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_150__ckpt_epoch_139_embeddings.pickle
+    target_options: {}
+
+  coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_150__ckpt_epoch_149:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_wl-0.5_gnn-GraphSAGE_res-True_wd-0__pretrain_epoches_100__epoches_150__ckpt_epoch_149_embeddings.pickle
+    target_options: {}
+
+
+
+
+  coles_gnn__pretrained_GRACE-GAT-weight-decay_0.00001__residual_true__num_layers_3__emb_size_128__pretrain_epoches_11:
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/coles_gnn__pretrained_GRACE-GAT-weight-decay_0.00001__residual_true__num_layers_3__emb_size_128__pretrain_epoches_11__epoches_40_embeddings.pickle
+    target_options: {}
+
+
+
+
+
+external_scores: {}
+report: 
+  is_check_train: false
+  error_handling: fail
+  print_all_metrics: false
+  metrics: 
+    auroc: 
+      float_format: "{:.3f}"
+      baseline_key: 
+        - lgbm
+        # - coles
+      split_columns: true
+    accuracy: 
+      float_format: "{:.3f}"
+      baseline_key: 
+        - lgbm
+        # - coles
+      split_columns: true

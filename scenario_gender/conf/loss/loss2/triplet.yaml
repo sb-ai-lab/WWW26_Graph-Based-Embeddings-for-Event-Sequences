@@ -1,0 +1,5 @@
+defaults:
+  - triplet_selector: bin_triplets_from_similarity_matrix_and_min_max
+
+_target_: ptls.frames.coles.losses.triplet_loss.TripletLoss
+margin: 0.8

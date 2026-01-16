@@ -1,0 +1,6 @@
+mcc_code: 
+  in: 200
+  out: 128
+tr_type: 
+  in: 100
+  out: 127
